@@ -234,6 +234,12 @@ isNotShakeWin (CompWindow *w)
     if (w->wmType & (CompWindowTypeDockMask | CompWindowTypeDesktopMask))
         return TRUE;
 
+	if (w->state & CompWindowStateSkipPagerMask)
+		return FALSE;
+
+	if (w->state & CompWindowStateShadedMask)
+		return FALSE;
+
     return FALSE;
 }
 
