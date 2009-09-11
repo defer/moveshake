@@ -835,7 +835,8 @@ static const CompMetadataOptionInfo moveDisplayOptionInfo[] = {
     { "opacity", "int", "<min>0</min><max>100</max>", 0, 0 },
     { "constrain_y", "bool", 0, 0, 0 },
     { "snapoff_maximized", "bool", 0, 0, 0 },
-    { "lazy_positioning", "bool", 0, 0, 0 }
+    { "lazy_positioning", "bool", 0, 0, 0 },
+	{ "shake", "bool", 0, 0, 0} 
 };
 
 static Bool
