@@ -1,0 +1,5 @@
+PLUGIN = moveshake
+PKG_DEP = 
+LDFLAGS_ADD =
+CFLAGS_ADD =
+CHK_HEADERS =
