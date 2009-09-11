@@ -1,4 +1,6 @@
 /*
+ * Shake additions (C) Diogo Ferreira <defer@student.dei.uc.pt> 2009
+ *
  * Copyright © 2005 Novell, Inc.
  *
  * Permission to use, copy, modify, distribute, and sell this software
