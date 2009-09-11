@@ -235,10 +235,13 @@ isNotShakeWin (CompWindow *w)
         return TRUE;
 
 	if (w->state & CompWindowStateSkipPagerMask)
-		return FALSE;
+		return TRUE;
 
 	if (w->state & CompWindowStateShadedMask)
-		return FALSE;
+		return TRUE;
+	if (!(*w->screen->focusWindow) (w))
+	    	return TRUE;
+
 
     return FALSE;
 }
