@@ -1,0 +1,8 @@
+Dependencies:
+- compiz 0.8.x (debian/ubuntu package: compiz-dev)
+
+Build/install instructions:
+$ make
+$ make install
+
+Then you can fire up ccsm, disable move and enable moveshake.
