@@ -1033,7 +1033,7 @@ moveGetMetadata (CompPlugin *plugin)
 }
 
 CompPluginVTable moveVTable = {
-    "move",
+    "moveshake",
     moveGetMetadata,
     moveInit,
     moveFini,
