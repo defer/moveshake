@@ -61,7 +61,8 @@ static int displayPrivateIndex;
 #define MOVE_DISPLAY_OPTION_CONSTRAIN_Y	      3
 #define MOVE_DISPLAY_OPTION_SNAPOFF_MAXIMIZED 4
 #define MOVE_DISPLAY_OPTION_LAZY_POSITIONING  5
-#define MOVE_DISPLAY_OPTION_NUM		      6
+#define MOVE_DISPLAY_OPTION_SHAKE  6
+#define MOVE_DISPLAY_OPTION_NUM		      7
 
 typedef struct _MoveDisplay {
     int		    screenPrivateIndex;
@@ -263,15 +264,16 @@ moveTerminate (CompDisplay     *d,
 
 	//crude shake detection code
 	if (
+			md->opt[MOVE_DISPLAY_OPTION_SHAKE].value.b &&
 			md->shakeXAccum + md->shakeYAccum > 300 &&
 			abs(md->savedX-md->w->serverX) + abs(md->savedY-md->w->serverY) < 100) {
 		handleShake (md->w);
 	}
 
 	//shake debug
-	printf ("Accum: %d %d\n",md->shakeXAccum,md->shakeYAccum);
-	printf ("Old: %d %d\n",md->savedX,md->savedY);
-	printf ("New: %d %d\n",md->w->serverX,md->w->serverY);
+	//printf ("Accum: %d %d\n",md->shakeXAccum,md->shakeYAccum);
+	//printf ("Old: %d %d\n",md->savedX,md->savedY);
+	//printf ("New: %d %d\n",md->w->serverX,md->w->serverY);
 
 
 	if (state & CompActionStateCancel)
