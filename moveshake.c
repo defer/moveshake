@@ -78,6 +78,10 @@ typedef struct _MoveDisplay {
     int        status;
     KeyCode    key[NUM_KEYS];
 
+	//shake accumulators
+	int        shakeXAccum;
+	int        shakeYAccum;
+
     int releaseButton;
 
     GLushort moveOpacity;
@@ -221,6 +225,28 @@ moveInitiate (CompDisplay     *d,
 }
 
 static Bool
+isNotShakeWin (CompWindow *w)
+{
+    if (w->attrib.override_redirect)
+        return TRUE;
+
+    if (w->wmType & (CompWindowTypeDockMask | CompWindowTypeDesktopMask))
+        return TRUE;
+
+    return FALSE;
+}
+
+static void
+handleShake (CompWindow *w) {
+	CompWindow *w2 = w->screen->windows;
+	for (; w2; w2 = w2->next)
+	{
+		if (w2 != w && !isNotShakeWin(w2)) 
+			minimizeWindow (w2);
+	}
+}
+
+static Bool
 moveTerminate (CompDisplay     *d,
 	       CompAction      *action,
 	       CompActionState state,
@@ -229,9 +255,24 @@ moveTerminate (CompDisplay     *d,
 {
     MOVE_DISPLAY (d);
 
+
+
     if (md->w)
     {
 	MOVE_SCREEN (md->w->screen);
+
+	//crude shake detection code
+	if (
+			md->shakeXAccum + md->shakeYAccum > 300 &&
+			abs(md->savedX-md->w->serverX) + abs(md->savedY-md->w->serverY) < 100) {
+		handleShake (md->w);
+	}
+
+	//shake debug
+	printf ("Accum: %d %d\n",md->shakeXAccum,md->shakeYAccum);
+	printf ("Old: %d %d\n",md->savedX,md->savedY);
+	printf ("New: %d %d\n",md->w->serverX,md->w->serverY);
+
 
 	if (state & CompActionStateCancel)
 	    moveWindow (md->w,
@@ -260,6 +301,10 @@ moveTerminate (CompDisplay     *d,
 	md->w             = 0;
 	md->releaseButton = 0;
     }
+
+	//reset shake state
+	md->shakeXAccum = md->shakeYAccum = 0;
+
 
     action->state &= ~(CompActionStateTermKey | CompActionStateTermButton);
 
@@ -544,6 +589,9 @@ moveHandleMotionEvent (CompScreen *s,
 			wX + dx - w->attrib.x,
 			wY + dy - w->attrib.y,
 			TRUE, FALSE);
+
+		md->shakeXAccum += abs(dx);
+		md->shakeYAccum += abs(dy);
 
 	    if (md->opt[MOVE_DISPLAY_OPTION_LAZY_POSITIONING].value.b)
 	    {
