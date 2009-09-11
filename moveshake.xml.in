@@ -1,7 +1,7 @@
 <compiz>
     <plugin name="moveshake">
-	<_short>Move Window</_short>
-	<_long>Move window</_long>
+	<_short>Move Window/Shake</_short>
+	<_long>Move window/Shake</_long>
 	<category>Window Management</category>
 	<display>
 	    <option name="initiate_button" type="button">
