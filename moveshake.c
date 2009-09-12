@@ -271,13 +271,6 @@ moveTerminate (CompDisplay     *d,
     {
 	MOVE_SCREEN (md->w->screen);
 
-	//crude shake detection code
-	if (
-			md->opt[MOVE_DISPLAY_OPTION_SHAKE].value.b &&
-			md->shakeXAccum + md->shakeYAccum > 300 &&
-			abs(md->savedX-md->w->serverX) + abs(md->savedY-md->w->serverY) < 100) {
-		handleShake (md->w);
-	}
 
 
 	if (state & CompActionStateCancel)
@@ -615,6 +608,14 @@ moveHandleMotionEvent (CompScreen *s,
 	    md->x -= dx;
 	    md->y -= dy;
 	}
+       if (
+                       md->opt[MOVE_DISPLAY_OPTION_SHAKE].value.b &&
+                       md->shakeXAccum + md->shakeYAccum > 300 &&
+                       abs(md->savedX-md->w->serverX) + abs(md->savedY-md->w->serverY) < 100)
+	{
+               handleShake (md->w);
+       }
+
     }
 }
 
