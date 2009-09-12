@@ -279,11 +279,6 @@ moveTerminate (CompDisplay     *d,
 		handleShake (md->w);
 	}
 
-	//shake debug
-	//printf ("Accum: %d %d\n",md->shakeXAccum,md->shakeYAccum);
-	//printf ("Old: %d %d\n",md->savedX,md->savedY);
-	//printf ("New: %d %d\n",md->w->serverX,md->w->serverY);
-
 
 	if (state & CompActionStateCancel)
 	    moveWindow (md->w,
